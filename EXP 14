@@ -1,0 +1,42 @@
+#include<stdio.h>
+
+int main(){
+    int n=3, m=3;
+    int alloc[3][3]={{0,1,0},{2,0,0},{3,0,2}};
+    int max[3][3]={{7,5,3},{3,2,2},{9,0,2}};
+    int avail[3]={3,3,2};
+    int need[3][3], finish[3]={0}, seq[3], i,j,k;
+
+    for(i=0;i<n;i++)
+        for(j=0;j<m;j++)
+            need[i][j] = max[i][j] - alloc[i][j];
+
+    int count = 0;
+    while(count < n){
+        for(i=0;i<n;i++){
+            if(!finish[i]){
+                int possible = 1;
+                for(j=0;j<m;j++){
+                    if(need[i][j] > avail[j]){
+                        possible = 0; break;
+                    }
+                }
+                if(possible){
+                    for(j=0;j<m;j++)
+                        avail[j] += alloc[i][j];
+                    seq[count++] = i;
+                    finish[i] = 1;
+                }
+            }
+        }
+    }
+
+    printf("Safe Sequence: ");
+    for(i=0;i<n;i++) printf("P%d ", seq[i]);
+}
+OUT PUT
+Producer produced 1
+Consumer consumed 1
+Producer produced 2
+Consumer consumed 2
+...
